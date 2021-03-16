@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "874913699196",
+    "project_id": "beat-store-52cd3",
+    "storage_bucket": "beat-store-52cd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874913699196:android:60d51499bf29280f1000f9",
+        "android_client_info": {
+          "package_name": "pl.uwr.beat_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874913699196-uu3tfbm88ttnjujuv2msoj22obrc4jpf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYbDx9-pGcpSyrxj3B-_y21u-J3v4_h1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874913699196-uu3tfbm88ttnjujuv2msoj22obrc4jpf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
