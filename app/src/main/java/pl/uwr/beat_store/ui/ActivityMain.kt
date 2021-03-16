@@ -10,10 +10,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import pl.uwr.beat_store.R
 
-class AuthActivity : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.auth_activity)
+        setContentView(R.layout.activity_main)
     }
 }

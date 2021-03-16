@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/loggedInFragment">
+
+    <fragment
+        android:id="@+id/loggedInFragment"
+        android:name="pl.uwr.beat_store.ui.LoggedInFragment"
+        android:label="LoggedInFragment" >
+        <action
+            android:id="@+id/action_loggedInFragment_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginRegisterFragment"
+        android:name="pl.uwr.beat_store.ui.LoginRegisterFragment"
+        android:label="LoginRegisterFragment" >
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_loggedInFragment"
+            app:destination="@id/loggedInFragment" />
+    </fragment>
+</navigation>

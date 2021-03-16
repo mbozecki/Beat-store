@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseUser
 import pl.uwr.beat_store.R
 import pl.uwr.beat_store.viewmodels.LoginRegisterViewModel
+
 
 class LoginRegisterFragment : Fragment() {
     private lateinit var emailEditText : EditText;
@@ -25,16 +27,17 @@ class LoginRegisterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
-        loginRegisterViewModel= ViewModelProviders.of(this).get(LoginRegisterViewModel.class);
+        loginRegisterViewModel= ViewModelProviders.of(this).get(LoginRegisterViewModel::class.java);
         loginRegisterViewModel.getUserLiveData().observe(this, Observer<FirebaseUser>() {
             fun onChanged(firebaseUser: FirebaseUser) {
                 if (firebaseUser != null) {
-                    view.findNavController()
-                        .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment);
+                    findNavController(requireView())
+                        .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment)
                 }
             }
         });
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +75,8 @@ class LoginRegisterFragment : Fragment() {
                 if (email.length > 0 && password.length > 0) {
                     loginRegisterViewModel.register(email, password)
                 } else {
-                    Toast.makeText(context,
+                    Toast.makeText(
+                        context,
                         "Email and password must be entered",
                         Toast.LENGTH_SHORT
                     ).show()

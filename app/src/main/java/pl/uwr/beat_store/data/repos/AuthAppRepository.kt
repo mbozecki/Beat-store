@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class AuthAppRepository(application: Application) {
 
-    private lateinit var application: Application;
+    private lateinit var application: Application ;
     private lateinit var firebaseAuth: FirebaseAuth;
     private lateinit var userLiveData: MutableLiveData<FirebaseUser>; //Mutable=can change over time
     private lateinit var loggedOutLiveData: MutableLiveData<Boolean>;
