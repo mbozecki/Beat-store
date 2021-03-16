@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 
-class AuthAppRepository {
+class AuthAppRepository(application: Application) {
 
     private lateinit var application: Application;
     private lateinit var firebaseAuth: FirebaseAuth;
@@ -31,15 +31,6 @@ class AuthAppRepository {
         }
     }
 
-    fun getUserLiveData(): MutableLiveData<FirebaseUser> {
-        return userLiveData;
-    }
-
-    fun getLoggedOutLiveData(): MutableLiveData<Boolean> {
-        return loggedOutLiveData;
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
     fun register(email: String, password: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password) //tries to create user with email+password
             .addOnCompleteListener(application.mainExecutor, {
@@ -52,6 +43,33 @@ class AuthAppRepository {
                     }
                 }
             });
+    }
+
+    fun login(email: String, password: String) {
+        firebaseAuth.signInWithEmailAndPassword(email, password) //tries to login user with email+password
+            .addOnCompleteListener(application.mainExecutor, {
+                @Override
+                fun onComplete(@NonNull task: Task<AuthResult>) {
+                    if (task.isSuccessful) {
+                        userLiveData.postValue(firebaseAuth.currentUser);
+                    } else {
+                        Toast.makeText(application.applicationContext, "Login Failure: ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    }
+
+    fun logOut() {
+        firebaseAuth.signOut();
+        loggedOutLiveData.postValue(true);
+    }
+
+    fun getUserLiveData(): MutableLiveData<FirebaseUser> {
+        return userLiveData;
+    }
+
+    fun getLoggedOutLiveData(): MutableLiveData<Boolean> {
+        return loggedOutLiveData;
     }
 
 }
