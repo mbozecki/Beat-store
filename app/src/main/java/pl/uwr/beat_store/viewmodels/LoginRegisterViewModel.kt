@@ -10,12 +10,12 @@ import pl.uwr.beat_store.data.repos.AuthAppRepository
 
 class LoginRegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var authAppRepository : AuthAppRepository;
-    private lateinit var userLiveData : MutableLiveData<FirebaseUser>;
+    private var userLiveData : MutableLiveData<FirebaseUser>?=null;
 
     fun LoginRegisterViewModel(@NonNull application: Application) {
         //super(application);
         authAppRepository = AuthAppRepository(application)
-        userLiveData = authAppRepository.getUserLiveData()
+        userLiveData = authAppRepository.getUserLiveData()!!
     }
 
     fun login(email: String, password: String){
@@ -26,7 +26,7 @@ class LoginRegisterViewModel(application: Application) : AndroidViewModel(applic
         authAppRepository.register(email, password);
     }
 
-    fun getUserLiveData() : MutableLiveData<FirebaseUser> {
+    fun getUserLiveData() : MutableLiveData<FirebaseUser>? {
         return userLiveData;
     }
 }

@@ -1,6 +1,7 @@
 package pl.uwr.beat_store.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import pl.uwr.beat_store.R
 import pl.uwr.beat_store.viewmodels.LoginRegisterViewModel
@@ -28,11 +30,12 @@ class LoginRegisterFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         loginRegisterViewModel= ViewModelProviders.of(this).get(LoginRegisterViewModel::class.java);
-        loginRegisterViewModel.getUserLiveData().observe(this, Observer<FirebaseUser>() {
+        loginRegisterViewModel.getUserLiveData()?.observe(this, Observer<FirebaseUser>() {
             fun onChanged(firebaseUser: FirebaseUser) {
-                if (firebaseUser != null) {
+                if (FirebaseAuth.getInstance().currentUser != null) {
+                    Log.d(FirebaseAuth.getInstance().currentUser.toString(), "onChanged: ")
                     findNavController(requireView())
-                        .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment)
+                            .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment)
                 }
             }
         });
