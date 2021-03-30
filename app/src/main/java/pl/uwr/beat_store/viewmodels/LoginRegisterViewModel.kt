@@ -9,12 +9,11 @@ import pl.uwr.beat_store.data.repos.AuthAppRepository
 
 
 class LoginRegisterViewModel(application: Application) : AndroidViewModel(application) {
-    private lateinit var authAppRepository : AuthAppRepository;
+    private var authAppRepository : AuthAppRepository = AuthAppRepository(application);
     private var userLiveData : MutableLiveData<FirebaseUser>?=null;
 
-    fun LoginRegisterViewModel(@NonNull application: Application) {
+    init {
         //super(application);
-        authAppRepository = AuthAppRepository(application)
         userLiveData = authAppRepository.getUserLiveData()!!
     }
 

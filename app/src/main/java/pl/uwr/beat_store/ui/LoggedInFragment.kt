@@ -27,18 +27,15 @@ class LoggedInFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         loggedInViewModel= ViewModelProviders.of(this).get(LoggedInViewModel::class.java);
-        loggedInViewModel!!.getUserLiveData()?.observe(this, Observer<FirebaseUser>() {
-
-            fun onChanged(firebaseUser: FirebaseUser) {
+        loggedInViewModel!!.getUserLiveData()?.observe(this, { firebaseUser ->
                 if (FirebaseAuth.getInstance().currentUser != null) {
-                    
                     loggedInUserTextView?.setText("Logged In User: " + firebaseUser.getEmail());
                     logOutButton.setEnabled(true);
                 } else {
                     logOutButton?.setEnabled(false);
                 }
             }
-        })
+        );
 
         loggedInViewModel!!.getLoggedOutLiveData()?.observe(this,
             { loggedOut ->
@@ -55,14 +52,13 @@ class LoggedInFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        var view : View =inflater.inflate(pl.uwr.beat_store.R.layout.fragment_loggedin, container, false);
+        var view : View =inflater.inflate(R.layout.fragment_loggedin, container, false);
         loggedInUserTextView = view.findViewById(R.id.fragment_loggedin_loggedInUser)
         logOutButton = view.findViewById(R.id.fragment_loggedin_logOut)
-        logOutButton.setOnClickListener(View.OnClickListener {
-            fun onClick(view: View?) {
-                loggedInViewModel?.logOut()
-            }
-        })
+        logOutButton.setOnClickListener {
+            loggedInViewModel?.logOut()
+        };
+
         return view
     }
 }

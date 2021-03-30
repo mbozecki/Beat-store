@@ -15,47 +15,41 @@ import com.google.firebase.auth.FirebaseUser
 
 class AuthAppRepository(application: Application) {
 
-    private lateinit var application: Application;
+    private var application: Application = application;
     private var firebaseAuth: FirebaseAuth?=null;
     private var userLiveData: MutableLiveData<FirebaseUser>?=null; //Mutable=can change over time
     private var loggedOutLiveData: MutableLiveData<Boolean>?=null;
 
-    fun AuthAppRepository(application: Application) {
-        this.application = application;
+    init { //on creating class
         firebaseAuth = FirebaseAuth.getInstance();
         userLiveData = MutableLiveData();
         loggedOutLiveData = MutableLiveData();
-        if (firebaseAuth!!.getCurrentUser() != null) {
-            userLiveData!!.postValue(firebaseAuth!!.getCurrentUser());
+        if (firebaseAuth!!.currentUser != null) {
+            userLiveData!!.postValue(firebaseAuth!!.currentUser);
             loggedOutLiveData!!.postValue(false);
         }
     }
 
     fun register(email: String, password: String) {
         firebaseAuth?.createUserWithEmailAndPassword(email, password) //tries to create user with email+password
-                ?.addOnCompleteListener(application.mainExecutor, {
-                    @Override
-                    fun onComplete(@NonNull task: Task<AuthResult>) {
+                ?.addOnCompleteListener(application.mainExecutor, { task ->
                         if (task.isSuccessful) {
                             userLiveData?.postValue(firebaseAuth?.currentUser); //updating data if successful
                         } else {
-                            Toast.makeText(application?.applicationContext, "Registration Failure: ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(application.applicationContext, "Registration Failure: ", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+
     }
 
     fun login(email: String, password: String) {
         firebaseAuth?.signInWithEmailAndPassword(email, password) //tries to login user with email+password
-                ?.addOnCompleteListener(application.mainExecutor, {
-                    @Override
-                    fun onComplete(@NonNull task: Task<AuthResult>) {
+                ?.addOnCompleteListener(application.mainExecutor, { task ->
                         if (task.isSuccessful) {
                             userLiveData?.postValue(firebaseAuth!!.currentUser);
                         } else {
                             Toast.makeText(application.applicationContext, "Login Failure: ", Toast.LENGTH_SHORT).show();
                         }
-                    }
                 });
     }
 

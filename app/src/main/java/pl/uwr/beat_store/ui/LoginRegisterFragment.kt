@@ -30,14 +30,12 @@ class LoginRegisterFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         loginRegisterViewModel= ViewModelProviders.of(this).get(LoginRegisterViewModel::class.java);
-        loginRegisterViewModel.getUserLiveData()?.observe(this, Observer<FirebaseUser>() {
-            fun onChanged(firebaseUser: FirebaseUser) {
+        loginRegisterViewModel.getUserLiveData()?.observe(this, { firebaseUser ->
                 if (FirebaseAuth.getInstance().currentUser != null) {
                     Log.d(FirebaseAuth.getInstance().currentUser.toString(), "onChanged: ")
                     findNavController(requireView())
                             .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment)
                 }
-            }
         });
     }
 
@@ -55,27 +53,25 @@ class LoginRegisterFragment : Fragment() {
         loginButton = view.findViewById(R.id.fragment_loginregister_login);
         registerButton = view.findViewById(R.id.fragment_loginregister_register);
 
-        loginButton.setOnClickListener(View.OnClickListener {
-            fun OnClick(view: View) {
-                var email: String = emailEditText.getText().toString();
-                var password: String = passwordEditText.getText().toString();
-                if (email.length > 0 && password.length > 0) {
-                    loginRegisterViewModel.login(email, password);
-                } else {
-                    Toast.makeText(
+        loginButton.setOnClickListener { view ->
+            var email: String = emailEditText.text.toString();
+            var password: String = passwordEditText.text.toString();
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginRegisterViewModel.login(email, password);
+            } else {
+                Toast.makeText(
                         context,
                         "Email and password must be entered",
                         Toast.LENGTH_SHORT
-                    ).show();
-                }
+                ).show();
             }
-        });
 
-        registerButton.setOnClickListener(View.OnClickListener {
-            fun onClick(view: View) {
+    }
+
+        registerButton.setOnClickListener { view ->
                 val email = emailEditText.text.toString()
                 val password = passwordEditText.text.toString()
-                if (email.length > 0 && password.length > 0) {
+                if (email.isNotEmpty() && password.isNotEmpty()) {
                     loginRegisterViewModel.register(email, password)
                 } else {
                     Toast.makeText(
@@ -85,8 +81,6 @@ class LoginRegisterFragment : Fragment() {
                     ).show()
                 }
             }
-        });
-
 
         return view;
     }

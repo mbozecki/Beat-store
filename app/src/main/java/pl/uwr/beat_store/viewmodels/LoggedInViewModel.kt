@@ -8,13 +8,12 @@ import pl.uwr.beat_store.data.repos.AuthAppRepository
 
 
 class LoggedInViewModel(application: Application) : AndroidViewModel(application){
-    private lateinit var authAppRepository: AuthAppRepository;
+    private var authAppRepository: AuthAppRepository = AuthAppRepository(application);
     private var userLiveData: MutableLiveData<FirebaseUser>?=null;
     private var loggedOutLiveData: MutableLiveData<Boolean>?=null;
 
-    fun LoggedInViewModel(application: Application) {
+    init {
         //super(application)
-        authAppRepository = AuthAppRepository(application)
         userLiveData = authAppRepository.getUserLiveData()!!
         loggedOutLiveData = authAppRepository.getLoggedOutLiveData()!!
     }
