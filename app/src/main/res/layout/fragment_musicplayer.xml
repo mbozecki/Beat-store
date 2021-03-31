@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/bckg">
+
+    <ImageView
+        android:layout_marginTop="100dp"
+        android:id="@+id/fragment_musicplayer_image"
+        android:layout_height="300dp"
+        android:background="@drawable/music_img"
+        android:layout_centerHorizontal="true"
+        android:layout_width="300dp"></ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text2"
+        android:textColor="#fff"
+        android:layout_marginHorizontal="10dp"
+        android:text="Nazwa"
+        android:textSize="24dp"
+        android:layout_below="@+id/fragment_musicplayer_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text3"
+        android:textColor="#fff"
+        android:textSize="14dp"
+        android:layout_marginHorizontal="30dp"
+        android:text="Producent"
+        android:layout_below="@+id/text2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+
+        android:layout_alignTop="@+id/text3"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/pause"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/ic_media_pause"
+            android:onClick="musicpause" />
+
+        <Button
+            android:id="@+id/start"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/ic_media_play"
+            android:onClick="musicplay" />
+
+        <Button
+            android:id="@+id/stop"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/ic_delete"
+            android:onClick="musicstop" />
+    </LinearLayout>
+
+
+</RelativeLayout>
