@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text2"
+        android:id="@+id/beatname"
         android:textColor="#fff"
         android:layout_marginHorizontal="10dp"
         android:text="Nazwa"
@@ -31,12 +31,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text3"
+        android:id="@+id/producername"
         android:textColor="#fff"
         android:textSize="14dp"
         android:layout_marginHorizontal="30dp"
         android:text="Producent"
-        android:layout_below="@+id/text2"
+        android:layout_below="@+id/beatname"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp" />
 
@@ -45,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-
-        android:layout_alignTop="@+id/text3"
+        android:id="@+id/arrows"
+        android:layout_alignTop="@+id/producername"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -56,7 +56,7 @@
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:background="@android:drawable/ic_media_pause"
-            android:onClick="musicpause" />
+             />
 
         <Button
             android:id="@+id/start"
@@ -64,16 +64,28 @@
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:background="@android:drawable/ic_media_play"
-            android:onClick="musicplay" />
+             />
 
         <Button
             android:id="@+id/stop"
-            style="@style/Widget.AppCompat.Button.Borderless"
+
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:background="@android:drawable/ic_delete"
-            android:onClick="musicstop" />
+           />
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arrows"
+        android:layout_alignLeft="@+id/fragment_musicplayer_image"
+        android:layout_alignRight="@+id/fragment_musicplayer_image"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="1dp" />
 
 
 </RelativeLayout>

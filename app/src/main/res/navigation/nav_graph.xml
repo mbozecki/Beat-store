@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
-    app:startDestination="@id/loginRegisterFragment">
+    app:startDestination="@id/musicPlayerFragment">
 
     <fragment
         android:id="@+id/loggedInFragment"
@@ -20,4 +20,8 @@
             app:destination="@id/loggedInFragment"
             app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
+    <fragment
+        android:id="@+id/musicPlayerFragment"
+        android:name="pl.uwr.beat_store.ui.MusicPlayerFragment"
+        android:label="MusicPlayerFragment" />
 </navigation>

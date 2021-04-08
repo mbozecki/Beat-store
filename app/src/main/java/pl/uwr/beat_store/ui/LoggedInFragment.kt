@@ -29,9 +29,9 @@ class LoggedInFragment : Fragment() {
         loggedInViewModel!!.getUserLiveData()?.observe(this, { firebaseUser ->
                 if (FirebaseAuth.getInstance().currentUser != null) {
                     loggedInUserTextView?.setText("Logged In User: " + firebaseUser.getEmail());
-                    logOutButton.setEnabled(true);
+                    logOutButton.isEnabled = true;
                 } else {
-                    logOutButton?.setEnabled(false);
+                    logOutButton.isEnabled = false;
                 }
             }
         );
@@ -56,6 +56,8 @@ class LoggedInFragment : Fragment() {
         logOutButton = view.findViewById(R.id.fragment_loggedin_logOut)
         logOutButton.setOnClickListener {
             loggedInViewModel?.logOut()
+            //activity?.supportFragmentManager?.popBackStack(); TODO wylaczenie mozliwosci powrodu do fragmentu po kliknieciu back buttona
+
         };
 
         return view

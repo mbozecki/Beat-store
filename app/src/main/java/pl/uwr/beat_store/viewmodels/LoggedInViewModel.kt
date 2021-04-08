@@ -20,6 +20,7 @@ class LoggedInViewModel(application: Application) : AndroidViewModel(application
 
     fun logOut() {
         authAppRepository.logOut()
+
     }
 
     fun getUserLiveData(): MutableLiveData<FirebaseUser>? {
