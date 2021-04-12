@@ -13,8 +13,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.database.*
+import kotlinx.coroutines.*
 import pl.uwr.beat_store.R
 import java.io.IOException
+import java.lang.Runnable
 import java.util.concurrent.TimeUnit
 
 class MusicPlayerFragment : Fragment() {
@@ -33,6 +35,9 @@ class MusicPlayerFragment : Fragment() {
 
     private var startTime=0;
     private var finalTime=0;
+
+    val scope= MainScope();
+    var job: Job? =null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,7 @@ class MusicPlayerFragment : Fragment() {
 
     }
 
+    @InternalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,6 +95,7 @@ class MusicPlayerFragment : Fragment() {
         return view;
     }
 
+    @InternalCoroutinesApi
     private fun playAudio(audioUrl: String) {
         mediaPlayer= MediaPlayer(); //initialization
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC); //setting audio stream type
@@ -101,20 +108,35 @@ class MusicPlayerFragment : Fragment() {
             startTime= mediaPlayer.currentPosition;
             println(startTime);
             seekbar.progress = startTime
-            myHandler.postDelayed(UpdateSongTime, 100)
+           // myHandler.postDelayed(UpdateSongTime, 100)
+            job= updateTime();
             mediaPlayer.start();
             Toast.makeText(this.context, "Audio is now playing", Toast.LENGTH_SHORT).show();
         } catch (e: IOException) {
             Toast.makeText(this.context, "error in playing: " + e, Toast.LENGTH_SHORT).show();
         }
     }
-    
-    private val UpdateSongTime: Runnable = object : Runnable {
+
+    /*private val UpdateSongTime: Runnable = object : Runnable {
         override fun run() {
             startTime = mediaPlayer.currentPosition
             println((startTime.toFloat() / finalTime.toFloat())*100);
             seekbar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
             myHandler.postDelayed(this, 100)
+        }
+    }
+
+     */
+
+    @InternalCoroutinesApi
+    private fun updateTime() : Job {
+        return CoroutineScope(Dispatchers.Default).launch {
+            while (NonCancellable.isActive) {
+                startTime = mediaPlayer.currentPosition
+                println((startTime.toFloat() / finalTime.toFloat())*100);
+                seekbar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
+                delay(100)
+            }
         }
     }
 }
