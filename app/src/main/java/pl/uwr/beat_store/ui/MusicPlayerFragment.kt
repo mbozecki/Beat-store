@@ -4,6 +4,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,15 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import pl.uwr.beat_store.R
 import java.io.IOException
-import java.lang.Runnable
-import java.util.concurrent.TimeUnit
+import kotlin.math.ceil
 
 class MusicPlayerFragment : Fragment() {
 
@@ -25,48 +29,39 @@ class MusicPlayerFragment : Fragment() {
     private lateinit var producerText: TextView;
     private lateinit var playButton : Button;
     private lateinit var pauseButton : Button;
-    private lateinit var seekbar :SeekBar;
+    private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
-    private lateinit var firebaseDatabase: FirebaseDatabase; //real-time database
+    private lateinit var firebaseDatabase: FirebaseDatabase;
     private lateinit var audioUrl : String;
-    private lateinit var databaseReference: DatabaseReference;
-
-    private var myHandler : Handler = Handler();
-
     private var startTime=0;
     private var finalTime=0;
-
-    val scope= MainScope();
+    private var pausedTime=0;
     var job: Job? =null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
-        //Log.d(TAG, "onCreate: ")
-        audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
+       // audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
         firebaseDatabase= FirebaseDatabase.getInstance();
-        println(FirebaseDatabase.getInstance());
-        databaseReference= firebaseDatabase.getReference("url") //potem zmien na miejsce w bazie danych
-        //databaseReference.get();
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //snapshot.val
-                println("XXX"+snapshot.exists());
-                audioUrl = snapshot.value as String;
+        val firestore = Firebase.firestore;
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "failed to get audio url..", Toast.LENGTH_SHORT).show();
-            }
-        });
+        firestore.firestoreSettings= FirebaseFirestoreSettings.Builder().build();
+        firestore
+                .collection("urls").document("links")
+                .get()
+                .addOnSuccessListener {
+                    audioUrl= it.data?.get("link").toString();
+                    Log.e("a_url", audioUrl);
+                }.addOnFailureListener {
+                    e -> Log.e("E", "Error writing document", e)
+                }
 
     }
 
     @InternalCoroutinesApi
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         var view: View = inflater.inflate(R.layout.fragment_musicplayer, container, false);
 
@@ -74,67 +69,76 @@ class MusicPlayerFragment : Fragment() {
         producerText= view.findViewById(R.id.producername);
         playButton = view.findViewById(R.id.start);
         pauseButton= view.findViewById(R.id.pause);
-        seekbar= view.findViewById(R.id.seekBar);
+        seekBar= view.findViewById(R.id.seekBar);
 
         playButton.setOnClickListener {
-            playAudio(audioUrl);
+            playAudio(audioUrl, pausedTime);
         }
 
         pauseButton.setOnClickListener{
             if (mediaPlayer.isPlaying)
             {
+                pausedTime = mediaPlayer.currentPosition;
+                job?.cancel();
                 mediaPlayer.stop();
                 mediaPlayer.reset();
                 mediaPlayer.release();
                 Toast.makeText(this.context, "audio paused", Toast.LENGTH_SHORT).show();
             }
             else {
+                //job?.cancel();
                 Toast.makeText(this.context, "Audio aint workin", Toast.LENGTH_SHORT).show();
             }
         }
+
+        seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) { //using seekbar to change song position
+                if (seekBar != null ) {
+                    mediaPlayer.seekTo(mediaPlayer.duration*seekBar.progress/100);
+                };
+            }
+        })
         return view;
     }
 
     @InternalCoroutinesApi
-    private fun playAudio(audioUrl: String) {
+    private fun playAudio(audioUrl: String, pausedOn: Int) {
         mediaPlayer= MediaPlayer(); //initialization
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC); //setting audio stream type
 
         try {
             mediaPlayer.setDataSource(audioUrl);
             mediaPlayer.prepare();
-
             finalTime= mediaPlayer.duration;
             startTime= mediaPlayer.currentPosition;
             println(startTime);
-            seekbar.progress = startTime
-           // myHandler.postDelayed(UpdateSongTime, 100)
+            seekBar.progress = startTime
             job= updateTime();
             mediaPlayer.start();
+            if (pausedOn !=0)
+                mediaPlayer.seekTo(pausedOn);
             Toast.makeText(this.context, "Audio is now playing", Toast.LENGTH_SHORT).show();
         } catch (e: IOException) {
             Toast.makeText(this.context, "error in playing: " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
-    /*private val UpdateSongTime: Runnable = object : Runnable {
-        override fun run() {
-            startTime = mediaPlayer.currentPosition
-            println((startTime.toFloat() / finalTime.toFloat())*100);
-            seekbar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
-            myHandler.postDelayed(this, 100)
-        }
-    }
-
-     */
 
     @InternalCoroutinesApi
     private fun updateTime() : Job {
         return CoroutineScope(Dispatchers.Default).launch {
             while (NonCancellable.isActive) {
                 startTime = mediaPlayer.currentPosition
-                println((startTime.toFloat() / finalTime.toFloat())*100);
-                seekbar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
+                println((startTime.toFloat() / finalTime.toFloat()) * 100);
+                seekBar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
                 delay(100)
             }
         }
