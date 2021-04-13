@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -27,8 +24,8 @@ class MusicPlayerFragment : Fragment() {
 
     private lateinit var beatnameText: TextView;
     private lateinit var producerText: TextView;
-    private lateinit var playButton : Button;
-    private lateinit var pauseButton : Button;
+    private lateinit var playButton : ImageButton;
+    private lateinit var pauseButton : ImageButton;
     private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
     private lateinit var firebaseDatabase: FirebaseDatabase;
@@ -51,6 +48,24 @@ class MusicPlayerFragment : Fragment() {
                 .addOnSuccessListener {
                     audioUrl= it.data?.get("link").toString();
                     Log.e("a_url", audioUrl);
+                }.addOnFailureListener {
+                    e -> Log.e("E", "Error writing document", e)
+                }
+
+        firestore
+                .collection("producers")
+                .get()
+                .addOnSuccessListener { users ->
+                    for (user in users)
+                    {
+                        //Log.e("a_url", user.id.toString());
+                        firestore.collection(user.id).get().addOnSuccessListener { beats ->
+                           for (beat in beats)
+                           {
+                                Log.e("a.url", beat.id.toString());
+                            }
+                        }
+                    }
                 }.addOnFailureListener {
                     e -> Log.e("E", "Error writing document", e)
                 }

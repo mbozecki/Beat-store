@@ -26,7 +26,7 @@
         android:textSize="24dp"
         android:layout_below="@+id/fragment_musicplayer_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp" />
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,58 +34,63 @@
         android:id="@+id/producername"
         android:textColor="#fff"
         android:textSize="14dp"
-        android:layout_marginHorizontal="30dp"
+
         android:text="Producent"
         android:layout_below="@+id/beatname"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp" />
 
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@style/MySeekBar"
+        android:theme="@style/MySeekBar"
 
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/producername"
+        android:layout_alignLeft="@+id/fragment_musicplayer_image"
+        android:layout_alignRight="@+id/fragment_musicplayer_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_margin="20dp"
         android:id="@+id/arrows"
-        android:layout_alignTop="@+id/producername"
+        android:layout_alignTop="@+id/seekBar"
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <Button
+        <ImageButton
             android:id="@+id/pause"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="125dp"
-            android:layout_height="match_parent"
-            android:background="@android:drawable/ic_media_pause"
+
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/btn_arrowback"
              />
 
-        <Button
+        <ImageButton
             android:id="@+id/start"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="125dp"
-            android:layout_height="match_parent"
-            android:background="@android:drawable/ic_media_play"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/btn_pause"
              />
 
-        <Button
+        <ImageButton
             android:id="@+id/stop"
-
-            android:layout_width="125dp"
-            android:layout_height="match_parent"
-            android:background="@android:drawable/ic_delete"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_arrownext"
            />
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/arrows"
-        android:layout_alignLeft="@+id/fragment_musicplayer_image"
-        android:layout_alignRight="@+id/fragment_musicplayer_image"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
 
-        android:layout_marginBottom="1dp" />
 
 
 </RelativeLayout>
