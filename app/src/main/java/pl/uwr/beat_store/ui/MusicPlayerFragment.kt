@@ -58,11 +58,11 @@ class MusicPlayerFragment : Fragment() {
                 .addOnSuccessListener { users ->
                     for (user in users)
                     {
-                        //Log.e("a_url", user.id.toString());
-                        firestore.collection(user.id).get().addOnSuccessListener { beats ->
+                        Log.e("a_url", user.id.toString());
+                        firestore.collection("producers").document(user.id).collection("beats").get().addOnSuccessListener { beats ->
                            for (beat in beats)
                            {
-                                Log.e("a.url", beat.id.toString());
+                                Log.e("a.url", beat.data?.get("url").toString());
                             }
                         }
                     }

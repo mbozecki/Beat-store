@@ -16,29 +16,69 @@
         android:layout_centerHorizontal="true"
         android:layout_width="300dp"></ImageView>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/beatname"
-        android:textColor="#fff"
-        android:layout_marginHorizontal="10dp"
-        android:text="Nazwa"
-        android:textSize="24dp"
+        android:gravity="center"
+        android:layout_margin="10dp"
+
+        android:id="@+id/linear"
         android:layout_below="@+id/fragment_musicplayer_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/addtocart"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="60dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/btn_addtocart"
+            />
+    <LinearLayout
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/producername"
-        android:textColor="#fff"
-        android:textSize="14dp"
+        android:gravity="center"
+        android:id="@+id/vertical"
+        android:layout_below="@+id/fragment_musicplayer_image"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/beatname"
+            android:textColor="#fff"
 
-        android:text="Producent"
-        android:layout_below="@+id/beatname"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp" />
+            android:text="Nazwa"
+            android:textSize="24dp"
+            android:layout_below="@+id/fragment_musicplayer_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/producername"
+            android:textColor="#fff"
+            android:textSize="14dp"
+
+            android:text="Producent"
+            android:layout_below="@+id/beatname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="1dp" />
+
+    </LinearLayout>
+        <ImageButton
+            android:id="@+id/addtofavorites"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_gravity="bottom"
+
+            android:background="@drawable/btn_heart"
+            />
+    </LinearLayout>
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -47,11 +87,12 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/producername"
+        android:layout_below="@+id/linear"
         android:layout_alignLeft="@+id/fragment_musicplayer_image"
         android:layout_alignRight="@+id/fragment_musicplayer_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+         />
 
     <LinearLayout
         android:layout_width="match_parent"
