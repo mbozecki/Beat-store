@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -36,7 +38,7 @@ class MusicPlayerFragment : Fragment() {
     private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
     private lateinit var firebaseDatabase: FirebaseDatabase;
-
+    private lateinit var bottomNavigationMenu: BottomNavigationView;
     private lateinit var audioUrl : String;
     private lateinit var audioName: String;
     private lateinit var audioProducer : String;
@@ -112,6 +114,9 @@ class MusicPlayerFragment : Fragment() {
         playButton = view.findViewById(R.id.start);
         pauseButton= view.findViewById(R.id.pause);
         seekBar= view.findViewById(R.id.seekBar);
+
+        bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar in musicplayer. It is not needed there
+        bottomNavigationMenu.visibility = View.GONE;
 
         playButton.setOnClickListener {
             playAudio(audioUrl, pausedTime);

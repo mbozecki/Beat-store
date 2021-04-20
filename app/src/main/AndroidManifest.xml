@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.uwr.beat_store">
+    package="pl.uwr.beat_store" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,11 +11,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Beatstore">
+        android:theme="@style/Theme.Beatstore" >
+        <activity
+            android:name=".NavActivity"
+            android:label="@string/title_activity_nav" >
+        </activity>
         <activity
             android:name=".btm"
-            android:label="@string/title_activity_btm"></activity>
-        <activity android:name=".ui.ActivityMain">
+            android:label="@string/title_activity_btm" />
+        <activity android:name=".ui.ActivityMain" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
