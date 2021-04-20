@@ -1,23 +1,35 @@
 package pl.uwr.beat_store.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import pl.uwr.beat_store.data.models.Song
 import pl.uwr.beat_store.data.repos.SongRepository
 
-class SongViewModel(application: Application) : AndroidViewModel(application) {
-    //private var songRepository: SongRepository();
-    private val _songs = MutableLiveData<List<Song>>(); //TODO : Change the type returned
-    val songs: LiveData<Song> = _songs; //Mutable properties shouldt be exposed to fragment, hence the _songs and songs
+
+class SongViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver  {
+    private var songRepository : SongRepository = SongRepository();
+    //private var songs = MutableLiveData<List<Song>>();
+    private var songs = MutableLiveData<ArrayList<Song>>();
+
+
+
+
 
     init {
+       // ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        println("MUSIC INIT")
         viewModelScope.launch {
-            _songs.value= SongRepository.getSongData();
-        }
+           println("songRepository.getSongData()")
+           songs = songRepository.getSongData();
+            println("songs: " + songs);
+       }
+        //songs = songRepository.getSongDData();
+    }
+
+    fun getSongLiveData() : MutableLiveData<ArrayList<Song>> {
+        println(" getSongLiveData")
+        return songs;
     }
 
 

@@ -18,16 +18,17 @@ data class Song (
 
     companion object {
         fun DocumentSnapshot.toSong(): Song? {
-            try {
+            return try {
                 val url = get("url").toString()
                 var name = get("name").toString()
                 var image = get("image").toString()
                 //var producer = get("producer").toString()
+                Log.e("SONG", "Kozacezk")
                 var producer ="X";
-                return Song(url, name, producer, image);
+                Song(url, name, producer, image);
             } catch (e: Exception) {
                 Log.e("SONG", "Error converting song profile", e)
-                return null
+                null
             }
         }
 

@@ -14,6 +14,7 @@ class LoggedInViewModel(application: Application) : AndroidViewModel(application
 
     init {
         //super(application)
+
         userLiveData = authAppRepository.getUserLiveData()!!
         loggedOutLiveData = authAppRepository.getLoggedOutLiveData()!!
     }

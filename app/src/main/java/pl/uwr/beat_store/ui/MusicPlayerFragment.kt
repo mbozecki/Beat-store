@@ -4,12 +4,17 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper.getMainLooper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -17,8 +22,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import pl.uwr.beat_store.R
+import pl.uwr.beat_store.data.models.Song
+import pl.uwr.beat_store.viewmodels.SongViewModel
 import java.io.IOException
-import kotlin.math.ceil
+
 
 class MusicPlayerFragment : Fragment() {
 
@@ -29,25 +36,31 @@ class MusicPlayerFragment : Fragment() {
     private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
     private lateinit var firebaseDatabase: FirebaseDatabase;
+
     private lateinit var audioUrl : String;
+    private lateinit var audioName: String;
+    private lateinit var audioProducer : String;
     private var startTime=0;
     private var finalTime=0;
     private var pausedTime=0;
+
     var job: Job? =null;
+    var SongList : ArrayList<Song>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
+
+
        // audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
         firebaseDatabase= FirebaseDatabase.getInstance();
         val firestore = Firebase.firestore;
-
         firestore.firestoreSettings= FirebaseFirestoreSettings.Builder().build();
+
         firestore
                 .collection("urls").document("links")
                 .get()
                 .addOnSuccessListener {
                     audioUrl= it.data?.get("link").toString();
-                    Log.e("a_url", audioUrl);
                 }.addOnFailureListener {
                     e -> Log.e("E", "Error writing document", e)
                 }
@@ -62,7 +75,9 @@ class MusicPlayerFragment : Fragment() {
                         firestore.collection("producers").document(user.id).collection("beats").get().addOnSuccessListener { beats ->
                            for (beat in beats)
                            {
-                                Log.e("a.url", beat.data?.get("url").toString());
+                               //Log.e("bv.url", beat.data?.get("image").toString());
+                               //Log.e("bv.url", beat.data?.get("name").toString());
+                                //Log.e("a.url", beat.data?.get("url").toString());
                             }
                         }
                     }
@@ -80,6 +95,18 @@ class MusicPlayerFragment : Fragment() {
     ): View? {
         var view: View = inflater.inflate(R.layout.fragment_musicplayer, container, false);
 
+        //val viewModel= ViewModelProvider(this)[SongViewModel::class.java];
+        val viewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
+        lifecycle.addObserver(viewModel);
+        viewModel.getSongLiveData().observe(viewLifecycleOwner, {
+            println("Notcalled"+ it[2]);
+            SongList= it;
+            //}
+
+        })
+
+
+        println("slist"+SongList?.get(3))
         beatnameText= view.findViewById(R.id.beatname);
         producerText= view.findViewById(R.id.producername);
         playButton = view.findViewById(R.id.start);
@@ -102,7 +129,7 @@ class MusicPlayerFragment : Fragment() {
             }
             else {
                 //job?.cancel();
-                Toast.makeText(this.context, "Audio aint workin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Audio not workign", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -151,6 +178,7 @@ class MusicPlayerFragment : Fragment() {
     private fun updateTime() : Job {
         return CoroutineScope(Dispatchers.Default).launch {
             while (NonCancellable.isActive) {
+                println(SongList);
                 startTime = mediaPlayer.currentPosition
                 println((startTime.toFloat() / finalTime.toFloat()) * 100);
                 seekBar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();
