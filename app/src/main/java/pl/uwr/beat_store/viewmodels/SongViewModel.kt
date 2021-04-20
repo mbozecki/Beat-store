@@ -21,7 +21,9 @@ class SongViewModel(application: Application) : AndroidViewModel(application), L
         println("MUSIC INIT")
         viewModelScope.launch {
            println("songRepository.getSongData()")
-           songs = songRepository.getSongData();
+           songs.postValue(songRepository.getSongData());
+               // songs.postValue()
+
             println("songs: " + songs);
        }
         //songs = songRepository.getSongDData();

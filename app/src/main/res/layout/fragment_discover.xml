@@ -2,52 +2,45 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
 
     android:id="@+id/activity_main"
     android:layout_height="match_parent"
-    android:background="@drawable/bckg">
+    android:background="@drawable/bckg"
+    tools:context=".ui.discover.DiscoverFragment">
 
 
-    <SearchView
-        android:layout_marginTop="30dp"
 
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/simpleSearchView2"
-        android:layout_width="match_parent"
-        android:layout_margin="30dp"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Here"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
         android:text="Discover"
         android:textColor="#BEBEBE"
         android:textSize="30dp"
 
-        app:layout_constraintStart_toStartOf="@+id/simpleSearchView2"
-        app:layout_constraintTop_toBottomOf="@+id/simpleSearchView2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
 
         android:id="@+id/view"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="1dp"
         android:background="#BEBEBE"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:text="Featured beats"
         android:textColor="#BEBEBE"
         android:textSize="16dp"

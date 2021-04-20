@@ -23,7 +23,7 @@ data class Song (
                 var name = get("name").toString()
                 var image = get("image").toString()
                 //var producer = get("producer").toString()
-                Log.e("SONG", "Kozacezk")
+                Log.e("SONG", "song")
                 var producer ="X";
                 Song(url, name, producer, image);
             } catch (e: Exception) {

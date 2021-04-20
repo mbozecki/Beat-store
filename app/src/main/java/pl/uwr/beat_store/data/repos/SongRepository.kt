@@ -15,9 +15,7 @@ class SongRepository {
     var firestore = Firebase.firestore;
     init {
         songLiveData.value= songList;
-        println("KURWA MAc")
-
-       /* firestore
+    /* firestore
                 .collection("producers")
                 .get()
                 .addOnSuccessListener { users ->
@@ -53,7 +51,7 @@ class SongRepository {
         return songLiveData;
     }
 
-     suspend fun getSongData() : MutableLiveData<ArrayList<Song>> {
+     suspend fun getSongData() : ArrayList<Song> {
 
 
         println("songList");
@@ -75,14 +73,15 @@ class SongRepository {
 
                     }
             //println(songList);
-            songLiveData.postValue(songList);
-            println(songLiveData);
-            songLiveData;
+            //songLiveData.postValue(songList);
+            //println(songLiveData);
+            //songLiveData;
+            songList;
         }
         catch (e: Exception) {
             Log.e(" SongRepository", e.toString());
-            songLiveData
-
+            //songLiveData
+            songList;
         }
 
     }
