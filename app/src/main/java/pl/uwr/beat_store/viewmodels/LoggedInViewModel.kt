@@ -13,8 +13,6 @@ class LoggedInViewModel(application: Application) : AndroidViewModel(application
     private var loggedOutLiveData: MutableLiveData<Boolean>?=null;
 
     init {
-        //super(application)
-
         userLiveData = authAppRepository.getUserLiveData()!!
         loggedOutLiveData = authAppRepository.getLoggedOutLiveData()!!
     }

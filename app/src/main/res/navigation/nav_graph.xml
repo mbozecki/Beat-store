@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/musicPlayerFragment">
+    app:startDestination="@id/navigation_discover">
 
     <fragment
         android:id="@+id/loggedInFragment"
@@ -21,6 +21,9 @@
             android:id="@+id/action_loginRegisterFragment_to_loggedInFragment"
             app:destination="@id/loggedInFragment"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_navigation_discover"
+            app:destination="@id/navigation_discover" />
     </fragment>
     <fragment
         android:id="@+id/musicPlayerFragment"

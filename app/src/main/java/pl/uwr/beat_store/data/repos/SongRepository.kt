@@ -15,34 +15,7 @@ class SongRepository {
     var firestore = Firebase.firestore;
     init {
         songLiveData.value= songList;
-    /* firestore
-                .collection("producers")
-                .get()
-                .addOnSuccessListener { users ->
-                    for (user in users)
-                    {
-                        Log.e("a_url", user.id.toString());
-                        firestore.collection("producers").document(user.id).collection("beats").get().addOnSuccessListener { beats ->
-                            for (beat in beats)
-                            {
-                                var image= beat.data?.get("image").toString();
-                                var name = beat.data?.get("name").toString();
-                                var url = beat.data?.get("url").toString();
-                                //beat.toSong()?.let { songList.add(it) };
-                                songList.add(beat.toSong()!!);
-                                println("TUTA");
-                                println(beat.toSong());
-                            }
-                        }
-                    }
 
-                }.addOnFailureListener {
-                    e -> Log.e("E", "Error writing getting song repo", e)
-                }
-        songLiveData?.setValue(songList);
-
-        */
-        //println("j"+songList);
     }
 
     fun getSongDData() : MutableLiveData<ArrayList<Song>>? {

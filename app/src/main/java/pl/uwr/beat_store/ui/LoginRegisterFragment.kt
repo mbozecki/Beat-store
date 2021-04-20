@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import pl.uwr.beat_store.R
@@ -25,16 +26,19 @@ class LoginRegisterFragment : Fragment() {
     private lateinit var loginButton : Button;
     private lateinit var registerButton : Button;
     private lateinit var loginRegisterViewModel : LoginRegisterViewModel;
-
+    private lateinit var bottomNavigationMenu: BottomNavigationView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
+
+
+
         loginRegisterViewModel= ViewModelProviders.of(this).get(LoginRegisterViewModel::class.java);
         loginRegisterViewModel.getUserLiveData()?.observe(this, { firebaseUser ->
                 if (FirebaseAuth.getInstance().currentUser != null) {
                     Log.d(FirebaseAuth.getInstance().currentUser.toString(), "onChanged: ")
                     findNavController(requireView())
-                            .navigate(R.id.action_loginRegisterFragment_to_loggedInFragment)
+                            .navigate(R.id.action_loginRegisterFragment_to_navigation_discover)
                 }
         });
     }
@@ -52,6 +56,9 @@ class LoginRegisterFragment : Fragment() {
         passwordEditText = view.findViewById(R.id.fragment_loginregister_password);
         loginButton = view.findViewById(R.id.fragment_loginregister_login);
         registerButton = view.findViewById(R.id.fragment_loginregister_register);
+
+        bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar. It is not needed there
+        bottomNavigationMenu.visibility = View.GONE;
 
         loginButton.setOnClickListener { view ->
             var email: String = emailEditText.text.toString();

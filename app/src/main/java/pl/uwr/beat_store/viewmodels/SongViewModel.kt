@@ -9,24 +9,15 @@ import pl.uwr.beat_store.data.repos.SongRepository
 
 class SongViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver  {
     private var songRepository : SongRepository = SongRepository();
-    //private var songs = MutableLiveData<List<Song>>();
     private var songs = MutableLiveData<ArrayList<Song>>();
 
 
-
-
-
     init {
-       // ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-        println("MUSIC INIT")
         viewModelScope.launch {
            println("songRepository.getSongData()")
            songs.postValue(songRepository.getSongData());
-               // songs.postValue()
-
             println("songs: " + songs);
        }
-        //songs = songRepository.getSongDData();
     }
 
     fun getSongLiveData() : MutableLiveData<ArrayList<Song>> {

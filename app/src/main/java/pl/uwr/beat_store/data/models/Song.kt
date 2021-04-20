@@ -12,8 +12,8 @@ data class Song (
     var url : String,
     var name : String,
     var producer : String,
-    var image : String
-
+    var image : String,
+    var type : String
 ) : Parcelable {
 
     companion object {
@@ -22,10 +22,10 @@ data class Song (
                 val url = get("url").toString()
                 var name = get("name").toString()
                 var image = get("image").toString()
-                //var producer = get("producer").toString()
-                Log.e("SONG", "song")
-                var producer ="X";
-                Song(url, name, producer, image);
+                var type = get("type").toString();
+                var producer = get("producer").toString()
+                //Log.e("SONG", "song")
+                Song(url, name, producer, image,type);
             } catch (e: Exception) {
                 Log.e("SONG", "Error converting song profile", e)
                 null

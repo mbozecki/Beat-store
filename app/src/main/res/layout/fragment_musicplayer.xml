@@ -13,8 +13,9 @@
         android:id="@+id/fragment_musicplayer_image"
         android:layout_height="300dp"
         android:background="@drawable/music_img"
+
         android:layout_centerHorizontal="true"
-        android:layout_width="300dp"></ImageView>
+        android:layout_width="300dp" />
 
     <LinearLayout
         android:layout_centerHorizontal="true"
