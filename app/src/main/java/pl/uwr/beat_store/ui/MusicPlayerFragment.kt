@@ -11,10 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
+import androidx.core.app.Person.fromBundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DatabaseReference
@@ -25,11 +27,13 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import pl.uwr.beat_store.R
 import pl.uwr.beat_store.data.models.Song
+import pl.uwr.beat_store.ui.discover.DiscoverFragment
+import pl.uwr.beat_store.ui.discover.SingleBeatAdapter
 import pl.uwr.beat_store.viewmodels.SongViewModel
 import java.io.IOException
 
 
-class MusicPlayerFragment : Fragment() {
+class MusicPlayerFragment() : Fragment() {
 
     private lateinit var beatnameText: TextView;
     private lateinit var producerText: TextView;
@@ -42,19 +46,24 @@ class MusicPlayerFragment : Fragment() {
     private lateinit var audioUrl : String;
     private lateinit var audioName: String;
     private lateinit var audioProducer : String;
+    private lateinit var song: Song;
     private var startTime=0;
     private var finalTime=0;
     private var pausedTime=0;
 
     var job: Job? =null;
-    var SongList : ArrayList<Song>? = null;
+    private var SongList : ArrayList<Song>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
-
-
-       // audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
-        firebaseDatabase= FirebaseDatabase.getInstance();
+        audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
+       //
+        song = arguments?.get("song") as Song; // get arguments from singlebeatadapter- discover fragment
+        audioName= song.name;
+        audioProducer= song.producer;
+        audioUrl= song.url;
+        println("myson"+ song);
+        /* firebaseDatabase= FirebaseDatabase.getInstance();
         val firestore = Firebase.firestore;
         firestore.firestoreSettings= FirebaseFirestoreSettings.Builder().build();
 
@@ -87,6 +96,8 @@ class MusicPlayerFragment : Fragment() {
                     e -> Log.e("E", "Error writing document", e)
                 }
 
+
+         */
     }
 
     @InternalCoroutinesApi
@@ -117,6 +128,9 @@ class MusicPlayerFragment : Fragment() {
 
         bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar in musicplayer. It is not needed there
         bottomNavigationMenu.visibility = View.GONE;
+
+        beatnameText.text = song.name;
+        producerText.text = song.producer;
 
         playButton.setOnClickListener {
             playAudio(audioUrl, pausedTime);
@@ -156,6 +170,10 @@ class MusicPlayerFragment : Fragment() {
         return view;
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
     @InternalCoroutinesApi
     private fun playAudio(audioUrl: String, pausedOn: Int) {
         mediaPlayer= MediaPlayer(); //initialization

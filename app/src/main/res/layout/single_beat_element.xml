@@ -33,7 +33,7 @@
 
             <TextView
 
-
+                android:textColor="@color/white"
                 android:background="#2d1220"
                 android:id="@+id/tvChapterName"
                 android:layout_width="match_parent"

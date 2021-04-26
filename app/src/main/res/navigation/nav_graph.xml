@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_discover">
+    app:startDestination="@id/loginRegisterFragment">
 
     <fragment
         android:id="@+id/loggedInFragment"
@@ -28,13 +28,24 @@
     <fragment
         android:id="@+id/musicPlayerFragment"
         android:name="pl.uwr.beat_store.ui.MusicPlayerFragment"
-        android:label="MusicPlayerFragment" />
+        android:label="MusicPlayerFragment" >
+        <argument android:name="song"
+            app:argType="pl.uwr.beat_store.data.models.Song" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_discover"
         android:name="pl.uwr.beat_store.ui.discover.DiscoverFragment"
         android:label="@string/title_discover"
-        tools:layout="@layout/fragment_discover" />
+        tools:layout="@layout/fragment_discover" >
+        <action
+            android:id="@+id/action_navigation_discover_to_musicPlayerFragment"
+            app:destination="@id/musicPlayerFragment" />
+        <action
+            android:id="@+id/action_navigation_discover_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:enterAnim="@anim/nav_default_pop_enter_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_home"

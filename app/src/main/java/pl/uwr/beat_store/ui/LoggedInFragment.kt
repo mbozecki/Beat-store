@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import pl.uwr.beat_store.viewmodels.LoggedInViewModel
 import pl.uwr.beat_store.R
@@ -22,6 +23,7 @@ class LoggedInFragment : Fragment() {
     private var loggedInUserTextView: TextView?= null;
     private  lateinit var logOutButton: Button;
     private  var loggedInViewModel: LoggedInViewModel? = null;
+    private lateinit var bottomNavigationMenu: BottomNavigationView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ class LoggedInFragment : Fragment() {
         var view : View =inflater.inflate(R.layout.fragment_loggedin, container, false);
         loggedInUserTextView = view.findViewById(R.id.fragment_loggedin_loggedInUser)
         logOutButton = view.findViewById(R.id.fragment_loggedin_logOut)
+        bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar. It is not needed there
+        bottomNavigationMenu.visibility = View.GONE;
         logOutButton.setOnClickListener {
             loggedInViewModel?.logOut()
             //activity?.supportFragmentManager?.popBackStack(); TODO wylaczenie mozliwosci powrodu do fragmentu po kliknieciu back buttona
