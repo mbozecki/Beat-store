@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 import pl.uwr.beat_store.R
 import pl.uwr.beat_store.data.models.Song
@@ -39,6 +40,7 @@ class MusicPlayerFragment() : Fragment() {
     private lateinit var producerText: TextView;
     private lateinit var playButton : ImageButton;
     private lateinit var pauseButton : ImageButton;
+    private lateinit var musicImage : ImageView;
     private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
     private lateinit var firebaseDatabase: FirebaseDatabase;
@@ -46,6 +48,7 @@ class MusicPlayerFragment() : Fragment() {
     private lateinit var audioUrl : String;
     private lateinit var audioName: String;
     private lateinit var audioProducer : String;
+    private lateinit var audioImg: String;
     private lateinit var song: Song;
     private var startTime=0;
     private var finalTime=0;
@@ -61,7 +64,9 @@ class MusicPlayerFragment() : Fragment() {
         song = arguments?.get("song") as Song; // get arguments from singlebeatadapter- discover fragment
         audioName= song.name;
         audioProducer= song.producer;
-        audioUrl= song.url;
+        println("URI"+song.url);
+        audioUrl= song.url.toString();
+        audioImg=  song.image;
         println("myson"+ song);
         /* firebaseDatabase= FirebaseDatabase.getInstance();
         val firestore = Firebase.firestore;
@@ -125,6 +130,7 @@ class MusicPlayerFragment() : Fragment() {
         playButton = view.findViewById(R.id.start);
         pauseButton= view.findViewById(R.id.pause);
         seekBar= view.findViewById(R.id.seekBar);
+        musicImage= view.findViewById(R.id.fragment_musicplayer_image);
 
         bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar in musicplayer. It is not needed there
         bottomNavigationMenu.visibility = View.GONE;
@@ -132,6 +138,7 @@ class MusicPlayerFragment() : Fragment() {
         beatnameText.text = song.name;
         producerText.text = song.producer;
 
+        Picasso.get().load(song.image).into(musicImage);
         playButton.setOnClickListener {
             playAudio(audioUrl, pausedTime);
         }
@@ -170,10 +177,6 @@ class MusicPlayerFragment() : Fragment() {
         return view;
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
     @InternalCoroutinesApi
     private fun playAudio(audioUrl: String, pausedOn: Int) {
         mediaPlayer= MediaPlayer(); //initialization
@@ -201,7 +204,7 @@ class MusicPlayerFragment() : Fragment() {
     private fun updateTime() : Job {
         return CoroutineScope(Dispatchers.Default).launch {
             while (NonCancellable.isActive) {
-                println(SongList);
+               // println(SongList);
                 startTime = mediaPlayer.currentPosition
                 println((startTime.toFloat() / finalTime.toFloat()) * 100);
                 seekBar.progress = ((startTime.toFloat() / finalTime.toFloat())*100).toInt();

@@ -20,10 +20,11 @@ data class Song (
         fun DocumentSnapshot.toSong(): Song? {
             return try {
                 val url = get("url").toString()
-                var name = get("name").toString()
-                var image = get("image").toString()
-                var type = get("type").toString();
-                var producer = get("producer").toString()
+                val name = get("name").toString()
+                val image = get("image").toString()
+                val type = get("type").toString();
+                //val producer = get("producer").toString()
+                val producer="Test";
                 //Log.e("SONG", "song")
                 Song(url, name, producer, image,type);
             } catch (e: Exception) {

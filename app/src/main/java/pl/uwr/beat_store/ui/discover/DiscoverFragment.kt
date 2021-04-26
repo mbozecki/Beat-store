@@ -20,10 +20,10 @@ import pl.uwr.beat_store.viewmodels.SongViewModel
 class DiscoverFragment : Fragment() {
 
     private lateinit var discoverViewModel: DiscoverViewModel
-    private var songList = ArrayList<Song>(2);
+    private var songList = ArrayList<Song>();
     private var typeBeats = ArrayList<ArrayList<Song>>(2);
     private lateinit var bottomNavigationMenu: BottomNavigationView;
-
+    private var isDataLoaded=false;
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<TypeBeatsAdapter.MyViewHolder>? = null
 
@@ -62,26 +62,32 @@ class DiscoverFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
         lifecycle.addObserver(viewModel);
-        viewModel.getSongLiveData().observe(viewLifecycleOwner, {
-            println("Notcalled" + it[2]);
+        viewModel.getSongLiveData().observe(viewLifecycleOwner, { it ->
+            //println("Notcalled" + it[2]);
             songList = it;
 
-            var weekndList = ArrayList<Song>();
-            var blackList= ArrayList<Song>();
+            if (!isDataLoaded)
+            {
+                var weekndList = ArrayList<Song>();
+                var blackList= ArrayList<Song>();
 
-            songList.forEach{
-                if(it.type=="theweeknd")
-                {
-                    weekndList.add(it);
+                songList.forEach{ song ->
+                    if(song.type=="theweeknd")
+                    {
+                        weekndList.add(song);
+                    }
+                    else if(song.type=="6lack")
+                    {
+                        blackList.add(song);
+                    }
 
                 }
-                else if(it.type=="6lack")
-                {
-                    blackList.add(it);
-                }
-                typeBeats.add(weekndList);
-                typeBeats.add(blackList);
+                    typeBeats.add(weekndList);
+                    typeBeats.add(blackList);
+
+                isDataLoaded=true;
             }
+
 
             if (typeBeats!=null)
             {

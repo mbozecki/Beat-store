@@ -40,11 +40,13 @@
         tools:layout="@layout/fragment_discover" >
         <action
             android:id="@+id/action_navigation_discover_to_musicPlayerFragment"
-            app:destination="@id/musicPlayerFragment" />
+            app:destination="@id/musicPlayerFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
         <action
             android:id="@+id/action_navigation_discover_to_navigation_search"
             app:destination="@id/navigation_search"
-            app:enterAnim="@anim/nav_default_pop_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
     <fragment

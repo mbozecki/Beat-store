@@ -15,18 +15,21 @@ import pl.uwr.beat_store.data.models.Song
 import pl.uwr.beat_store.ui.MusicPlayerFragment
 
 
-class SingleBeatAdapter(private var context: Context, private var songs: ArrayList<Song>) :
+class SingleBeatAdapter(context: Context, private var songs: ArrayList<Song>) :
     RecyclerView.Adapter<SingleBeatAdapter.CustomViewHolder>() {
     private var inflater : LayoutInflater = LayoutInflater.from(context);
     private lateinit var song : Song;
-    private val mOnClickListener: View.OnClickListener = View.OnClickListener { v->
-        println("ONCLICKED");
-        val action = DiscoverFragmentDirections.actionNavigationDiscoverToMusicPlayerFragment(song);
+    private lateinit var  mOnClickListener: View.OnClickListener;
 
-        //val action = DiscoverFragmentDirections.action_navigation_discover_to_musicPlayerFragment(song);
-        Navigation.findNavController(v)
-                .navigate(action)
+    fun setListener(song: Song) //setting correct song onClickListener
+    {
+        mOnClickListener= View.OnClickListener { v->
+            println("ONCLICKED"+song);
+            val action = DiscoverFragmentDirections.actionNavigationDiscoverToMusicPlayerFragment(song);
+            Navigation.findNavController(v)
+                    .navigate(action)
 
+        }
     }
 
     override fun onCreateViewHolder(
@@ -34,6 +37,7 @@ class SingleBeatAdapter(private var context: Context, private var songs: ArrayLi
         viewType: Int
     ): CustomViewHolder {
         var view: View = inflater.inflate(R.layout.single_beat_element, parent, false);
+
         return CustomViewHolder(view)
     }
 
@@ -44,6 +48,7 @@ class SingleBeatAdapter(private var context: Context, private var songs: ArrayLi
         Picasso.get().load(song.image).into(holder.songImage);
         with(holder.itemView)
         {
+            setListener(song);
             setOnClickListener(mOnClickListener);
         }
         }
@@ -58,7 +63,7 @@ class SingleBeatAdapter(private var context: Context, private var songs: ArrayLi
                  itemView.findViewById<View>(R.id.tvChapterName) as TextView
              var producerName: TextView =
                 itemView.findViewById<View>(R.id.producerName) as TextView
-            //TODO add onclick
+
 
      }
 }
