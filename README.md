@@ -1,6 +1,7 @@
 # Beat-store
 An Online Shop app which allows you to browse, listen and buy hip-hop instrumentals.
 
+Using Kotlin,MVVM architecture, Firebase, LiveData, Coroutines, Android Jetpack Navigation, RecyclerView, MediaPlayer
 ### Done
 
 - [x] Login/Register with Firebase
