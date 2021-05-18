@@ -37,15 +37,6 @@ class DiscoverFragment : Fragment() {
         }
 
 
-    fun dso(typeBeats: ArrayList<ArrayList<Song>>){
-        var rvTypeBeat: RecyclerView? = null;
-        //var typeBeatsAdapter: TypeBeatsAdapter
-        var typeBeatsAdapter : TypeBeatsAdapter = TypeBeatsAdapter(typeBeats, this.requireContext())
-        val manager = LinearLayoutManager(requireContext())
-        rvTypeBeat?.layoutManager = manager
-        rvTypeBeat?.adapter = typeBeatsAdapter
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,20 +90,5 @@ class DiscoverFragment : Fragment() {
 
         return root
     }
-
-    private suspend fun prepareData(): ArrayList<ArrayList<Song>> {
-        val typesArray: ArrayList<ArrayList<Song>> = ArrayList();
-        songList.forEach{
-            if(it.type=="theweeknd")
-            {
-                typesArray[0].add(it); //first will be for theweeknd typebeats
-            }
-            else if(it.type=="6lack")
-            {
-                typesArray[1].add(it);
-            }
-        }
-
-        return typesArray;
-    }
+    
 }

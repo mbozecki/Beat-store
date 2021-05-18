@@ -12,16 +12,16 @@
         android:title="@string/title_search" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_notifications1"
         android:icon="@drawable/ic_baseline_play_circle_outline_24"
         android:title="@string/title_play" />
 >
     <item
-        android:id="@+id/navigation_notifications1"
+        android:id="@+id/navigation_favorites"
         android:icon="@drawable/nav_heart"
         android:title="@string/title_favorites" />
     <item
-        android:id="@+id/navigation_notifications2"
+        android:id="@+id/navigation_cart"
         android:icon="@drawable/nav_cart"
         android:title="@string/title_cart" />
 

@@ -47,6 +47,13 @@
             android:id="@+id/action_navigation_discover_to_navigation_search"
             app:destination="@id/navigation_search"
             app:enterAnim="@anim/nav_default_enter_anim" />
+
+        <action
+            android:id="@+id/action_navigation_discover_to_navigation_favorites"
+            app:destination="@id/navigation_favorites" />
+        <action
+            android:id="@+id/action_navigation_discover_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
     </fragment>
 
     <fragment
@@ -62,8 +69,13 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="pl.uwr.beat_store.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_favorites"
+        android:name="pl.uwr.beat_store.ui.favorites.FavoritesFragment"
         android:label="@string/title_play"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="pl.uwr.beat_store.ui.favorites.CartFragment"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>

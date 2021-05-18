@@ -20,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
         android:layout_margin="10dp"
 
         android:id="@+id/linear"
@@ -32,8 +32,9 @@
             android:id="@+id/addtocart"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginRight="50dp"
             android:layout_gravity="bottom"
+            android:layout_weight="1"
             android:background="@drawable/btn_addtocart"
             />
     <LinearLayout
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:layout_weight="16"
         android:id="@+id/vertical"
         android:layout_below="@+id/fragment_musicplayer_image"
 
@@ -50,6 +52,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/beatname"
             android:textColor="#fff"
+
             android:text="Nazwa"
             android:textSize="24dp"
             android:layout_below="@+id/fragment_musicplayer_image"
@@ -65,7 +68,7 @@
 
             android:text="Producent"
             android:layout_below="@+id/beatname"
-            android:layout_centerHorizontal="true"
+
             android:layout_marginTop="1dp" />
 
     </LinearLayout>
@@ -73,9 +76,9 @@
             android:id="@+id/addtofavorites"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="50dp"
             android:layout_gravity="bottom"
-
+            android:layout_weight="1"
             android:background="@drawable/btn_heart"
             />
     </LinearLayout>
@@ -98,8 +101,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_margin="20dp"
+        android:layout_margin="40dp"
         android:id="@+id/arrows"
+            
         android:layout_alignTop="@+id/seekBar"
         android:orientation="horizontal"
         android:padding="10dp">
@@ -117,6 +121,7 @@
         <ImageButton
             android:id="@+id/start"
             android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="100dp"
             android:background="@drawable/btn_pause"
              />
