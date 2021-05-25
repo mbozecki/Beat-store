@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +20,8 @@ class CartFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null;
     private var adapter: RecyclerView.Adapter<CartAdapter.CartViewHolder>? = null;
     private var songList= ArrayList<Song>();
+    private var totalPrice=0.0;
+    private lateinit var totalText : TextView;
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
@@ -27,6 +30,9 @@ class CartFragment : Fragment() {
         adapter= CartAdapter(songList, requireContext());
         rvCart.layoutManager= layoutManager;
         rvCart.adapter= adapter;
+
+        totalText= view.findViewById(R.id.total);
+        totalText.text = "Total: "+totalPrice.toString()+"$";
     }
 
     override fun onCreateView(
@@ -34,14 +40,17 @@ class CartFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        songList.add(Song("url","Nazwa","Producento", "https://cdn.beatstars.com/eyJidWNrZXQiOiJidHMtY29udGVudCIsImtleSI6InVzZXJzL3Byb2QvMjAxMDIxL2ltYWdlL3YxTDhjVllabHVYSC9pNGIzeHNydWkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6bnVsbCwid2lkdGgiOjIwMCwiaGVpZ2h0IjoyMDB9fX0=","weeknd" ,21.12))
-        songList.add(Song("url","Nazwa","Producento", "https://cdn.beatstars.com/eyJidWNrZXQiOiJidHMtY29udGVudCIsImtleSI6InVzZXJzL3Byb2QvMjAxMDIxL2ltYWdlL3YxTDhjVllabHVYSC9pNGIzeHNydWkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6bnVsbCwid2lkdGgiOjIwMCwiaGVpZ2h0IjoyMDB9fX0=","weeknd" ,13.3))
-
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
         lifecycle.addObserver(cartViewModel);
         cartViewModel.getCartLiveData().observe(viewLifecycleOwner, {
-            //println("Notcalled" + it[2]);
-            println("BAMBA"+it);
+            songList=it;
+            for(x in it)
+            {
+                totalPrice+=x.price;
+            }
+
+            onViewCreated(requireView(), savedInstanceState)
+
         })
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
