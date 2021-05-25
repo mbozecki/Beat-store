@@ -19,8 +19,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -41,9 +43,10 @@ class MusicPlayerFragment() : Fragment() {
     private lateinit var playButton : ImageButton;
     private lateinit var pauseButton : ImageButton;
     private lateinit var musicImage : ImageView;
+    private lateinit var cartButton: ImageButton;
+    private lateinit var favoriteButton: ImageButton;
     private lateinit var seekBar :SeekBar;
     private lateinit var mediaPlayer: MediaPlayer;
-    private lateinit var firebaseDatabase: FirebaseDatabase;
     private lateinit var bottomNavigationMenu: BottomNavigationView;
     private lateinit var audioUrl : String;
     private lateinit var audioName: String;
@@ -56,6 +59,7 @@ class MusicPlayerFragment() : Fragment() {
 
     var job: Job? =null;
     private var SongList : ArrayList<Song>? = null;
+    private val firestore = Firebase.firestore;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -68,8 +72,9 @@ class MusicPlayerFragment() : Fragment() {
         audioUrl= song.url.toString();
         audioImg=  song.image;
         println("myson"+ song);
-        /* firebaseDatabase= FirebaseDatabase.getInstance();
-        val firestore = Firebase.firestore;
+        //firebaseDatabase=
+        /*
+
         firestore.firestoreSettings= FirebaseFirestoreSettings.Builder().build();
 
         firestore
@@ -131,6 +136,8 @@ class MusicPlayerFragment() : Fragment() {
         pauseButton= view.findViewById(R.id.pause);
         seekBar= view.findViewById(R.id.seekBar);
         musicImage= view.findViewById(R.id.fragment_musicplayer_image);
+        cartButton= view.findViewById(R.id.addtocart)
+        favoriteButton= view.findViewById(R.id.addtofavorites)
 
         bottomNavigationMenu = activity?.findViewById(R.id.nav_view)!!; //Hiding navbar in musicplayer. It is not needed there
         bottomNavigationMenu.visibility = View.GONE;
@@ -158,6 +165,46 @@ class MusicPlayerFragment() : Fragment() {
                 Toast.makeText(this.context, "Audio not workign", Toast.LENGTH_SHORT).show();
             }
         }
+
+        cartButton.setOnClickListener{
+            val user= Firebase.auth.currentUser;
+            val email= user.email;
+            val beatname= song.name;
+            val docRef= firestore.collection("users").document(email);
+            docRef.get().addOnSuccessListener { document ->
+                if(!document.contains("cart")) { //if there is no cart in firebase I have to create one
+                    var arr :List<String> = listOf(song.name);
+
+                    val usercart = mapOf(
+                            "cart" to arr,
+                    )
+                    firestore.collection("users").document(email).update(usercart);
+                }
+            }
+            firestore.collection("users").document(email).update("cart", FieldValue.arrayUnion(beatname))
+           Toast.makeText(this.context, beatname+" added to cart", Toast.LENGTH_SHORT).show();
+        }
+
+        favoriteButton.setOnClickListener{
+            val user= Firebase.auth.currentUser;
+            val email= user.email;
+            val beatname= song.name;
+            val docRef= firestore.collection("users").document(email);
+            docRef.get().addOnSuccessListener { document ->
+                if(!document.contains("favorites")) { //if there is no favorites arr in firebase I have to create one
+                    var arr :List<String> = listOf(song.name);
+
+                    val favorites = mapOf(
+                            "favorites" to arr,
+                    )
+                    firestore.collection("users").document(email).update(favorites);
+                }
+            }
+            firestore.collection("users").document(email).update("favorites", FieldValue.arrayUnion(beatname))
+            Toast.makeText(this.context, beatname+" added to cart", Toast.LENGTH_SHORT).show();
+        }
+
+
 
         seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

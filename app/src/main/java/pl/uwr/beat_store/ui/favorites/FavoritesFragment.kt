@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.uwr.beat_store.R
+import pl.uwr.beat_store.ui.cart.CartViewModel
 
 class FavoritesFragment : Fragment() {
 
-  private lateinit var favoritesViewModel: CartViewModel
+  private lateinit var favoritesViewModel: FavoritesViewModel
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -19,7 +20,7 @@ class FavoritesFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     favoritesViewModel =
-            ViewModelProvider(this).get(CartViewModel::class.java)
+            ViewModelProvider(this).get(FavoritesViewModel::class.java)
     val root = inflater.inflate(R.layout.fragment_favorites, container, false)
 
     favoritesViewModel.text.observe(viewLifecycleOwner, Observer {

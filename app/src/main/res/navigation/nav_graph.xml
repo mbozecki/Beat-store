@@ -75,7 +75,7 @@
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="pl.uwr.beat_store.ui.favorites.CartFragment"
+        android:name="pl.uwr.beat_store.ui.cart.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />
 </navigation>

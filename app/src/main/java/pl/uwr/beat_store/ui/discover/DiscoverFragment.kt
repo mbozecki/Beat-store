@@ -21,7 +21,7 @@ class DiscoverFragment : Fragment() {
 
     private lateinit var discoverViewModel: DiscoverViewModel
     private var songList = ArrayList<Song>();
-    private var typeBeats = ArrayList<ArrayList<Song>>(2);
+    private var typeBeats = ArrayList<ArrayList<Song>>(3);
     private lateinit var bottomNavigationMenu: BottomNavigationView;
     private var isDataLoaded=false;
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -61,20 +61,26 @@ class DiscoverFragment : Fragment() {
             {
                 var weekndList = ArrayList<Song>();
                 var blackList= ArrayList<Song>();
+                var drakeList= ArrayList<Song>();
 
                 songList.forEach{ song ->
-                    if(song.type=="theweeknd")
-                    {
-                        weekndList.add(song);
-                    }
-                    else if(song.type=="6lack")
-                    {
-                        blackList.add(song);
+                    when (song.type) {
+                        "theweeknd" -> {
+                            weekndList.add(song);
+                        }
+                        "6lack" -> {
+                            blackList.add(song);
+                        }
+                        "drake" -> {
+                            drakeList.add(song);
+                        }
                     }
 
                 }
                     typeBeats.add(weekndList);
                     typeBeats.add(blackList);
+                    typeBeats.add(drakeList);
+
 
                 isDataLoaded=true;
             }

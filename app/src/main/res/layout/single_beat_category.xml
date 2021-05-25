@@ -9,7 +9,7 @@
         android:background="#2d1220"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dp">
+        >
 
         <TextView
             android:id="@+id/typeBeatHeading"
@@ -23,7 +23,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTypeBeats"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+
+            />
 
     </LinearLayout>
 

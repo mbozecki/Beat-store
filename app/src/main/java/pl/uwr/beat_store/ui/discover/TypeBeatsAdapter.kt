@@ -40,8 +40,9 @@ class TypeBeatsAdapter(
         )
         holder.recyclerView.setHasFixedSize(true)
         when (position) {
-            0 -> holder.typeBeatHeading.text = "The Weeknd Type beats"
-            1 -> holder.typeBeatHeading.text = "6lack Type beats"
+            0 -> holder.typeBeatHeading.text = "The Weeknd type beats"
+            1 -> holder.typeBeatHeading.text = "6lack type beats"
+            2 -> holder.typeBeatHeading.text= "Drake type beats"
         }
 
     }

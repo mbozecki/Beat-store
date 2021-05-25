@@ -21,7 +21,7 @@ class SingleBeatAdapter(context: Context, private var songs: ArrayList<Song>) :
     private lateinit var song : Song;
     private lateinit var  mOnClickListener: View.OnClickListener;
 
-    fun setListener(song: Song) //setting correct song onClickListener
+    private fun setListener(song: Song) //setting correct song onClickListener
     {
         mOnClickListener= View.OnClickListener { v->
             println("ONCLICKED"+song);
