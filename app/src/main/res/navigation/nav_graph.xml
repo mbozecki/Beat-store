@@ -54,13 +54,20 @@
         <action
             android:id="@+id/action_navigation_discover_to_navigation_cart"
             app:destination="@id/navigation_cart" />
+        <action
+            android:id="@+id/action_navigation_discover_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="pl.uwr.beat_store.ui.home.HomeFragment"
+        android:id="@+id/navigation_profile"
+        android:name="pl.uwr.beat_store.ui.profile.ProfileFragment"
         android:label="@string/title_discover"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"

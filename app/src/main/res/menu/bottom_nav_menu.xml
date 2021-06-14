@@ -11,10 +11,7 @@
         android:icon="@drawable/nav_search"
         android:title="@string/title_search" />
 
-    <item
-        android:id="@+id/navigation_notifications1"
-        android:icon="@drawable/ic_baseline_play_circle_outline_24"
-        android:title="@string/title_play" />
+
 >
     <item
         android:id="@+id/navigation_favorites"
@@ -24,5 +21,10 @@
         android:id="@+id/navigation_cart"
         android:icon="@drawable/nav_cart"
         android:title="@string/title_cart" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="@string/title_profile" />
 
 </menu>

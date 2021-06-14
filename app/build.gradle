@@ -123,4 +123,5 @@ dependencies {
 
     apply plugin: "androidx.navigation.safeargs.kotlin"
 
+    implementation 'com.itextpdf:itext7-core:7.1.8'
 }
