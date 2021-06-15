@@ -18,12 +18,6 @@ class SongRepository {
 
     }
 
-    fun getSongDData(): MutableLiveData<ArrayList<Song>>? {
-        println("getSongDData")
-        println(songLiveData);
-        return songLiveData;
-    }
-
     suspend fun getSongData(): ArrayList<Song> {
 
         return try {
@@ -31,17 +25,14 @@ class SongRepository {
                     .collection("producers")
                     .get()
                     .await().documents.mapNotNull {
-                        Log.e("abc.url", "getSongData");
+                       // Log.e("abc.url", "getSongData");
                         firestore
                                 .collection("producers")
                                 .document(it.id)
                                 .collection("beats")
                                 .get().await().mapNotNull { its ->
-                                    Log.e("2ab.url", its.data.toString());
-
                                     songList.add(its.toSong()!!);
                                 }
-
                     }
 
             songList;

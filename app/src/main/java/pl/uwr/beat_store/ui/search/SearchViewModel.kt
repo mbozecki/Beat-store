@@ -27,7 +27,6 @@ class SearchViewModel : ViewModel() {
     }
 
     fun getSearchLiveData() : MutableLiveData<ArrayList<Song>> {
-        println(" getSongLiveData")
         return songs;
     }
 }

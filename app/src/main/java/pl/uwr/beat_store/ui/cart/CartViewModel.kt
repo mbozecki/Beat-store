@@ -22,11 +22,15 @@ class CartViewModel(application: Application) : AndroidViewModel(application), L
     private var songsInCart = MutableLiveData<ArrayList<Song>>();
     private var songsTmp = ArrayList<Song>();
 
+    private var songsPurchased= MutableLiveData<ArrayList<Song>>();
+    private var purchase= MutableLiveData<ArrayList<String>>();
+    private var purchaseTmp = ArrayList<Song>();
     init {
         viewModelScope.launch {
             val queue = async(Dispatchers.IO) {
                 cart.postValue(cartRepository.getCartData());
-                songs.postValue(songRepository.getSongData()); //TODO change gettins songs
+                songs.postValue(songRepository.getSongData());
+                purchase.postValue(cartRepository.getPurchaseData()) //for profile and generating pdf
             }
             queue.await(); //waiting for results in order to search for songs in cart
 
@@ -34,7 +38,11 @@ class CartViewModel(application: Application) : AndroidViewModel(application), L
                 if (cart.value?.contains(x.name) == true) {
                     songsTmp.add(x);
                 }
+                if (purchase.value?.contains(x.name)==true) {
+                    purchaseTmp.add(x)
+                }
             }
+            songsPurchased.postValue(purchaseTmp) // for profile framgent
             songsInCart.postValue(songsTmp);
 
         }
@@ -46,5 +54,14 @@ class CartViewModel(application: Application) : AndroidViewModel(application), L
 
     fun deleteCart(name: String) {
         cartRepository.deleteCartData(name);
+    }
+
+    fun getPurchaseLiveData(): MutableLiveData<ArrayList<Song>>{
+        return songsPurchased;
+    }
+
+    fun addToPurchase(songList: ArrayList<Song>)
+    {
+        cartRepository.addToPurchase(songList)
     }
 }

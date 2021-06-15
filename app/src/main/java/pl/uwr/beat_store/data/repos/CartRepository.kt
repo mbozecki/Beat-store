@@ -8,12 +8,16 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import pl.uwr.beat_store.data.models.Song
 
 class CartRepository {
     private val user: FirebaseUser = Firebase.auth.currentUser;
     private val email: String = user.email;
 
     var cartList = ArrayList<String>();
+    var purchaseList = ArrayList<String>();
+    private var purchaseLiveData = MutableLiveData<ArrayList<String>>()
+
     private var cartLiveData = MutableLiveData<ArrayList<String>>();
     var firestore = Firebase.firestore;
 
@@ -41,5 +45,28 @@ class CartRepository {
         val docRef = firestore.collection("users").document(email)
         docRef.update("cart", FieldValue.arrayRemove(name))
         cartLiveData.value = (cartList);
+    }
+
+    suspend fun getPurchaseData(): ArrayList<String> {
+        return try {
+            var fs = firestore
+                    .collection("users").document(email)
+                    .get()
+                    .await()
+            purchaseList = fs.data?.get("purchased") as ArrayList<String>;
+            purchaseList;
+        } catch (e: Exception) {
+            Log.e(" PrchaseRepository", e.toString());
+            purchaseList;
+        }
+
+    }
+
+    fun addToPurchase(songList: ArrayList<Song>) {
+        val docRef = firestore.collection("users").document(email)
+        for (x in songList) {
+            docRef.update("purchased", FieldValue.arrayUnion(x.name))
+        }
+
     }
 }

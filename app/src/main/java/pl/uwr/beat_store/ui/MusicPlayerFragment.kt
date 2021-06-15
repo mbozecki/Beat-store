@@ -49,6 +49,7 @@ class MusicPlayerFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
+        mediaPlayer = MediaPlayer()
         audioUrl = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"; //temp
         song = arguments?.get("song") as Song; // get arguments from singlebeatadapter- discover fragment
         audioName = song.name;
@@ -91,7 +92,11 @@ class MusicPlayerFragment() : Fragment() {
 
         Picasso.get().load(song.image).into(musicImage);
         playButton.setOnClickListener {
-            playAudio(audioUrl, pausedTime);
+            if (!mediaPlayer.isPlaying)
+            {
+                playAudio(audioUrl, pausedTime);
+            }
+
         }
 
         pauseButton.setOnClickListener {
@@ -170,6 +175,7 @@ class MusicPlayerFragment() : Fragment() {
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC); //setting audio stream type
 
         try {
+            //mediaPlayer.isPlaying=true
             mediaPlayer.setDataSource(audioUrl);
             mediaPlayer.prepare();
             finalTime = mediaPlayer.duration;

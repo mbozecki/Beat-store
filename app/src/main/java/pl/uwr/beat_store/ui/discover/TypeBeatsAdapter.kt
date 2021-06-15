@@ -41,9 +41,7 @@ class TypeBeatsAdapter(
     }
 
     override fun getItemCount(): Int {
-        println("sizeG" + typebeatslist.forEach { println(it.toString()) });
         return typebeatslist.size;
-        // return 4; //TODO: change return
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {

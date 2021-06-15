@@ -30,6 +30,7 @@ class CartFragment : Fragment() {
     private var totalPrice = 0.0;
     private lateinit var totalText: TextView;
     private lateinit var payButton: Button;
+    private lateinit var payTestButton: Button;
     private val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
     private lateinit var paymentsClient: PaymentsClient
 
@@ -41,13 +42,18 @@ class CartFragment : Fragment() {
         adapter = CartAdapter(songList, requireContext(), this);
         rvCart.layoutManager = layoutManager;
         rvCart.adapter = adapter;
-
-
         totalText = view.findViewById(R.id.total);
         payButton = view.findViewById(R.id.pay_button);
+        payTestButton= view.findViewById(R.id.paytest_button)
+
         totalText.text = "Total: " + totalPrice.toString() + "$";
         payButton.setOnClickListener {
             requestPayment();
+        }
+
+        payTestButton.setOnClickListener {
+            println("Songuwa"+songList);
+            cartViewModel.addToPurchase(songList);
         }
     }
 
@@ -63,9 +69,7 @@ class CartFragment : Fragment() {
             for (x in it) {
                 totalPrice += x.price;
             }
-
             onViewCreated(requireView(), savedInstanceState)
-
         })
         paymentsClient = PaymentsUtil.createPaymentsClient(requireActivity())
 
