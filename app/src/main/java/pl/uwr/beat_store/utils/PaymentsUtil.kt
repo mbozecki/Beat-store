@@ -57,11 +57,11 @@ object PaymentsUtil {
      */
     private fun directTokenizationSpecification(): JSONObject {
         if (Constants.DIRECT_TOKENIZATION_PUBLIC_KEY == "REPLACE_ME" ||
-            (Constants.DIRECT_TOKENIZATION_PARAMETERS.isEmpty() ||
-                    Constants.DIRECT_TOKENIZATION_PUBLIC_KEY.isEmpty())) {
+                (Constants.DIRECT_TOKENIZATION_PARAMETERS.isEmpty() ||
+                        Constants.DIRECT_TOKENIZATION_PUBLIC_KEY.isEmpty())) {
 
             throw RuntimeException(
-                "Please edit the Constants.java file to add protocol version & public key.")
+                    "Please edit the Constants.java file to add protocol version & public key.")
         }
 
         return JSONObject().apply {
@@ -162,7 +162,7 @@ object PaymentsUtil {
      * @see [MerchantInfo](https://developers.google.com/pay/api/android/reference/object.MerchantInfo)
      */
     private val merchantInfo: JSONObject =
-        JSONObject().put("merchantName", "Example Merchant")
+            JSONObject().put("merchantName", "Example Merchant")
 
     /**
      * Creates an instance of [PaymentsClient] for use in an [Activity] using the
@@ -172,8 +172,8 @@ object PaymentsUtil {
      */
     fun createPaymentsClient(activity: Activity): PaymentsClient {
         val walletOptions = Wallet.WalletOptions.Builder()
-            .setEnvironment(Constants.PAYMENTS_ENVIRONMENT)
-            .build()
+                .setEnvironment(Constants.PAYMENTS_ENVIRONMENT)
+                .build()
 
         return Wallet.getPaymentsClient(activity, walletOptions)
     }
@@ -212,7 +212,7 @@ object PaymentsUtil {
                 // PaymentDataRequest JSON object.
                 val shippingAddressParameters = JSONObject().apply {
                     put("phoneNumberRequired", false)
-                    put("allowedCountryCodes", JSONArray(listOf("US", "GB","PL")))
+                    put("allowedCountryCodes", JSONArray(listOf("US", "GB", "PL")))
                 }
                 put("shippingAddressParameters", shippingAddressParameters)
                 put("shippingAddressRequired", true)

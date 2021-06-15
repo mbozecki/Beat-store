@@ -1,7 +1,6 @@
 package pl.uwr.beat_store.viewmodels
 
 import android.app.Application
-import androidx.annotation.NonNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
@@ -13,7 +12,6 @@ class LoginRegisterViewModel(application: Application) : AndroidViewModel(applic
     private var userLiveData : MutableLiveData<FirebaseUser>?=null;
 
     init {
-        //super(application);
         userLiveData = authAppRepository.getUserLiveData()!!
     }
 

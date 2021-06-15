@@ -7,10 +7,10 @@ import com.google.firebase.auth.FirebaseUser
 import pl.uwr.beat_store.data.repos.AuthAppRepository
 
 
-class LoggedInViewModel(application: Application) : AndroidViewModel(application){
+class LoggedInViewModel(application: Application) : AndroidViewModel(application) {
     private var authAppRepository: AuthAppRepository = AuthAppRepository(application);
-    private var userLiveData: MutableLiveData<FirebaseUser>?=null;
-    private var loggedOutLiveData: MutableLiveData<Boolean>?=null;
+    private var userLiveData: MutableLiveData<FirebaseUser>? = null;
+    private var loggedOutLiveData: MutableLiveData<Boolean>? = null;
 
     init {
         userLiveData = authAppRepository.getUserLiveData()!!

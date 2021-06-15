@@ -23,12 +23,12 @@ import pl.uwr.beat_store.utils.PaymentsUtil
 
 class CartFragment : Fragment() {
 
-    private lateinit var cartViewModel: CartViewModel
+    lateinit var cartViewModel: CartViewModel
     private var layoutManager: RecyclerView.LayoutManager? = null;
     private var adapter: RecyclerView.Adapter<CartAdapter.CartViewHolder>? = null;
-    private var songList= ArrayList<Song>();
-    private var totalPrice=0.0;
-    private lateinit var totalText : TextView;
+    private var songList = ArrayList<Song>();
+    private var totalPrice = 0.0;
+    private lateinit var totalText: TextView;
     private lateinit var payButton: Button;
     private val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
     private lateinit var paymentsClient: PaymentsClient
@@ -37,15 +37,15 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
         var rvCart: RecyclerView = view.findViewById(R.id.rvCart);
-        layoutManager= LinearLayoutManager(requireContext());
-        adapter= CartAdapter(songList, requireContext());
-        rvCart.layoutManager= layoutManager;
-        rvCart.adapter= adapter;
+        layoutManager = LinearLayoutManager(requireContext());
+        adapter = CartAdapter(songList, requireContext(), this);
+        rvCart.layoutManager = layoutManager;
+        rvCart.adapter = adapter;
 
 
-        totalText= view.findViewById(R.id.total);
-        payButton=  view.findViewById(R.id.pay_button);
-        totalText.text = "Total: "+totalPrice.toString()+"$";
+        totalText = view.findViewById(R.id.total);
+        payButton = view.findViewById(R.id.pay_button);
+        totalText.text = "Total: " + totalPrice.toString() + "$";
         payButton.setOnClickListener {
             requestPayment();
         }
@@ -59,10 +59,9 @@ class CartFragment : Fragment() {
         cartViewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
         lifecycle.addObserver(cartViewModel);
         cartViewModel.getCartLiveData().observe(viewLifecycleOwner, {
-            songList=it;
-            for(x in it)
-            {
-                totalPrice+=x.price;
+            songList = it;
+            for (x in it) {
+                totalPrice += x.price;
             }
 
             onViewCreated(requireView(), savedInstanceState)
@@ -118,7 +117,7 @@ class CartFragment : Fragment() {
         // onActivityResult will be called with the result.
         if (request != null) {
             AutoResolveHelper.resolveTask(
-                paymentsClient.loadPaymentData(request), requireActivity(), LOAD_PAYMENT_DATA_REQUEST_CODE)
+                    paymentsClient.loadPaymentData(request), requireActivity(), LOAD_PAYMENT_DATA_REQUEST_CODE)
         }
     }
 

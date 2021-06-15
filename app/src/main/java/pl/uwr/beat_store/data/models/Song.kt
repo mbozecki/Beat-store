@@ -7,13 +7,13 @@ import kotlinx.android.parcel.Parcelize
 
 //Data model for Song
 @Parcelize
-data class Song (
-    var url : String,
-    var name : String,
-    var producer : String,
-    var image : String,
-    var type : String,
-    var price : Double
+data class Song(
+        var url: String,
+        var name: String,
+        var producer: String,
+        var image: String,
+        var type: String,
+        var price: Double
 ) : Parcelable {
 
     companion object {
@@ -24,10 +24,10 @@ data class Song (
                 val image = get("image").toString()
                 val type = get("type").toString();
                 //val producer = get("producer").toString()
-                val producer="Test";
-                val price=39.99;
+                val producer = "Test";
+                val price = 39.99;
                 //Log.e("SONG", "song")
-                Song(url, name, producer, image,type, price);
+                Song(url, name, producer, image, type, price);
             } catch (e: Exception) {
                 Log.e("SONG", "Error converting song profile", e)
                 null
