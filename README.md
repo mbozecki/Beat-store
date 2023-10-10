@@ -8,10 +8,9 @@ Using Kotlin,MVVM architecture, Firebase, LiveData, Coroutines, Android Jetpack 
 - [x] Discover tab with categories
 - [x] Navbar using Jetpack navigation
 - [x] Music Player Fragment (80%)
-- [ ] Search Fragment
-- [ ] Favorites Fragment
-- [ ] Cart Fragment & payment
-- [ ] Minimized Spotify-style music fragment
+- [x] Search Fragment
+- [x] Favorites Fragment
+- [x] Cart Fragment & payment
 
 ![scr1](https://i.imgur.com/zpL1Rpx.png)
 ![scr2](https://i.imgur.com/iMOduou.png)
